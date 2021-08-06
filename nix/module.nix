@@ -17,21 +17,21 @@ in
     enable = mkEnableOption "Simple Porkbun dynamic DNS";
 
     apiKey = mkOption {
-      type = types.str;
+      type = types.nullOr types.str;
       description = "Your Porkbun API key.";
-      default = "";
+      default = null;
     };
 
     secretApiKey = mkOption {
-      type = types.str;
+      type = types.nullOr types.str;
       description = "Your Porkbun secret API key.";
-      default = "";
+      default = null;
     };
 
     domains = mkOption {
       type = types.attrsOf (types.listOf types.str);
       description = "Domains and records.";
-      default = "";
+      default = { };
     };
 
     interval = mkOption {
@@ -44,11 +44,11 @@ in
   config = mkIf cfg.enable {
     assertions = [
       {
-        assertion = cfg.apiKey != "";
+        assertion = cfg.apiKey != null;
         message = "Porkbun API key must be set.";
       }
       {
-        assertion = cfg.secretApiKey != "";
+        assertion = cfg.secretApiKey != null;
         message = "Porkbun secret API key must be set.";
       }
     ];
